@@ -1,0 +1,29 @@
+import random
+
+class PlayingCard(object):
+    """Playing card to be used to fill a baccarat shoe and
+    to be drawn to a playing hand.
+
+    Attributes:
+        rank: int or a string with the rank of the card.
+        suit: string with the suit of the card
+    """
+    def __init__(self, rank, suit):
+        self.rank = rank
+        self.suit = suit
+
+    def get_value(self):
+        """Returns the value of the card according to baccarat
+        rules.
+        """
+        if self.rank in range(2, 10):
+            return self.rank
+        elif self.rank == 'ace':
+            return 1
+        else:
+            return 0
+
+    def __str__(self):
+        """Return a string with the rank and suit of the card.
+        """
+        return "{} of {}".format(self.rank, self.suit)
