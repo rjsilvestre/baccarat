@@ -30,11 +30,14 @@ class PlayingCard(object):
 
 class Shoe(object):
     def __init__(self, num_decks):
+        self.num_decks = num_decks
+        self.add_decks()
+
+    def add_decks(self):
         suits = ['hearts', 'spades', 'clubs', 'diamonds']
         ranks = ['ace', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'jack', 'queen', 'king']
         self.cards = []
-        self.num_decks = num_decks
-        for i in range(num_decks):
+        for i in range(self.num_decks):
             for suit in suits:
                 for rank in ranks:
                    self.cards.append(PlayingCard(rank, suit)) 
