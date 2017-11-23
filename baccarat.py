@@ -26,7 +26,7 @@ class PlayingCard(object):
     def __str__(self):
         """Return a string with the rank and suit of the card.
         """
-        return "{} of {}".format(self.rank, self.suit)
+        return '{} of {}'.format(self.rank, self.suit)
 
 class Shoe(object):
     def __init__(self, num_decks):
