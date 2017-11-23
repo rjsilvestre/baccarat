@@ -27,3 +27,19 @@ class PlayingCard(object):
         """Return a string with the rank and suit of the card.
         """
         return "{} of {}".format(self.rank, self.suit)
+
+class Shoe(object):
+    def __init__(self, num_decks):
+        suits = ['hearts', 'spades', 'clubs', 'diamonds']
+        ranks = ['ace', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'jack', 'queen', 'king']
+        self.cards = []
+        self.num_decks = num_decks
+        for i in range(num_decks):
+            for suit in suits:
+                for rank in ranks:
+                   self.cards.append(PlayingCard(rank, suit)) 
+        random.shuffle(self.cards)
+
+    def __str__(self):
+        return '{} decks shoe. {} cards left.\n'.format(self.num_decks, len(self.cards)) + \
+               ', '.join([card.__str__() for card in self.cards])
