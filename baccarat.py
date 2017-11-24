@@ -12,7 +12,8 @@ class PlayingCard(object):
         self.rank = rank
         self.suit = suit
 
-    def get_value(self):
+    @property
+    def value(self):
         """Returns the value of the card according to baccarat
         rules.
         """
