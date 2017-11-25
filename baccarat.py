@@ -14,8 +14,8 @@ class PlayingCard(object):
 
     @property
     def value(self):
-        """Returns the value of the card according to baccarat
-        rules.
+        """Returns the value of the card according to 
+        baccarat rules.
         """
         if self.rank in range(2, 10):
             return self.rank
@@ -23,6 +23,11 @@ class PlayingCard(object):
             return 1
         else:
             return 0
+
+    def __add__(self, other):
+        return (self.value + other) % 10
+
+    __radd__ = __add__
 
     def __str__(self):
         """Return a string with the rank and suit of the card.
@@ -47,3 +52,4 @@ class Shoe(object):
     def __str__(self):
         return '{} decks shoe. {} cards left.\n'.format(self.num_decks, len(self.cards)) + \
                ', '.join([card.__str__() for card in self.cards])
+               
