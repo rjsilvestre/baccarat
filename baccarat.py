@@ -29,6 +29,12 @@ class PlayingCard(object):
 
     __radd__ = __add__
 
+    def __repr__(self):
+        """Return the representation string as if the object was
+        called when creating a new instance.
+        """
+        return f'PlayingCard({self.rank}, \'{self.suit}\')'
+
     def __str__(self):
         """Return a string with the rank and suit of the card.
         """
@@ -48,6 +54,12 @@ class Shoe(object):
                 for rank in ranks:
                    self.cards.append(PlayingCard(rank, suit)) 
         random.shuffle(self.cards)
+
+    def __repr__(self):
+        """Return the representation string as if the object was
+        called when creating a new instance.
+        """
+        return f'Shoe({self.num_decks})'
 
     def __str__(self):
         return '{} decks shoe. {} cards left.\n'.format(self.num_decks, len(self.cards)) + \
