@@ -1,5 +1,8 @@
 import random
 
+SUITS = ['hearts', 'spades', 'clubs', 'diamonds']
+RANKS = ['ace', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'jack', 'queen', 'king']
+
 class PlayingCard:
     """Playing card to be used to fill a baccarat shoe and
     to be drawn to a playing hand.
@@ -72,12 +75,10 @@ class Shoe:
 
     def add_decks(self):
         """Refils the shoe with num_decks decks."""
-        suits = ['hearts', 'spades', 'clubs', 'diamonds']
-        ranks = ['ace', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'jack', 'queen', 'king']
         self._cards = []
         for i in range(self._num_decks):
-            for suit in suits:
-                for rank in ranks:
+            for suit in SUITS:
+                for rank in RANKS:
                    self._cards.append(PlayingCard(rank, suit)) 
         random.shuffle(self._cards)
 
