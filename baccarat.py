@@ -13,6 +13,10 @@ class PlayingCard:
         suit: string, the suit of the card.
     """
     def __init__(self, rank, suit):
+        if rank not in RANKS:
+            raise ValueError('Invalid card rank.')
+        if suit not in SUITS:
+            raise ValueError('Invalid card suit.')
         self._rank = rank
         self._suit = suit
 
@@ -62,6 +66,10 @@ class Shoe:
             on the Shoe object.
     """
     def __init__(self, num_decks):
+        if not isinstance(num_decks, int):
+            raise TypeError('Number of decks must be a integer.')
+        elif num_decks < 1:
+            raise ValueError('Number of decks must be positive.')
         self._num_decks = num_decks
         self.add_decks()
 
