@@ -3,7 +3,7 @@ import random
 SUITS = ['hearts', 'spades', 'clubs', 'diamonds']
 RANKS = ['ace', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'jack', 'queen', 'king']
 
-class PlayingCard:
+class Card:
     """Playing card to be used to fill a baccarat shoe and
     to be drawn to a playing hand.
 
@@ -56,7 +56,7 @@ class PlayingCard:
         """Return the representation string as if the object was
         called when creating a new instance.
         """
-        return f'PlayingCard({self._rank}, \'{self._suit}\')'
+        return f'Card({self._rank}, \'{self._suit}\')'
 
     def __str__(self):
         """Return a string with the rank and suit of the card."""
@@ -100,7 +100,7 @@ class Shoe:
         for i in range(self._num_decks):
             for suit in SUITS:
                 for rank in RANKS:
-                   self._cards.append(PlayingCard(rank, suit)) 
+                   self._cards.append(Card(rank, suit)) 
         random.shuffle(self._cards)
 
     def draw_cards(self, num_cards):
