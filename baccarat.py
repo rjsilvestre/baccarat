@@ -81,6 +81,24 @@ class Shoe:
                    self._cards.append(PlayingCard(rank, suit)) 
         random.shuffle(self._cards)
 
+    def draw_cards(self, num_cards):
+        """Draws cards from shoe. Refills the shoe when
+        it is empty.
+
+        Args:
+            num_cards: int, number of cards to be drawn.
+
+        Returns:
+            cards_drawn: list, cards drawn from shoe.
+        """
+        cards_drawn = []
+        for i in range(num_cards):
+            if len(self._cards) == 0:
+                self.add_decks()
+                print('Refilling shoe...')
+            cards_drawn.append(self._cards.pop())
+        return cards_drawn
+
     def __repr__(self):
         """Return the representation string as if the object was
         called when creating a new instance.
