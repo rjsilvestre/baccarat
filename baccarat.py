@@ -7,10 +7,17 @@ class PlayingCard:
     """Playing card to be used to fill a baccarat shoe and
     to be drawn to a playing hand.
 
+    Args:
+        rank: int or string, the rank of the card.
+        suit: string, the suit of the card.
+
     Attributes:
         value: int, baccarat value of the card.
         rank: int or string, the rank of the card.
         suit: string, the suit of the card.
+
+    Raises:
+        ValueError: On invalid card rank or suit.
     """
     def __init__(self, rank, suit):
         if rank not in RANKS:
@@ -52,22 +59,28 @@ class PlayingCard:
         return f'PlayingCard({self._rank}, \'{self._suit}\')'
 
     def __str__(self):
-        """Return a string with the rank and suit of the card.
-        """
+        """Return a string with the rank and suit of the card."""
         return f'{self._rank} of {self._suit}'
 
 class Shoe:
     """Shoe with num_decks shuffled decks. All cards used in the game
     will be drawn from this set.
 
+    Args:
+        num_decks: int, number of decks on the shoe.
+
     Attributes:
         num_decks: int, number of decks on the shoe.
         cards: list, all the instances of the object PlayinCard
             on the Shoe object.
+
+    Raises:
+        TypeError: If the num_decks is not an integer.
+        ValueError: If the num_decks is not positive.
     """
     def __init__(self, num_decks):
         if not isinstance(num_decks, int):
-            raise TypeError('Number of decks must be a integer.')
+            raise TypeError('Number of decks must be an integer.')
         elif num_decks < 1:
             raise ValueError('Number of decks must be positive.')
         self._num_decks = num_decks
