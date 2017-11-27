@@ -132,3 +132,24 @@ class Shoe:
         number of cards left.
         """
         return f'{self._num_decks} decks shoe. {len(self._cards)} cards left.'
+
+class Hand:
+    def __init__(self, cards):
+        self._cards = []
+        self.add_cards(cards)
+
+    @property
+    def cards(self):
+        return self._cards
+
+    @property
+    def value(self):
+        return sum(self._cards)
+
+    def add_cards(self, cards):
+        try:
+            for card in cards:
+                assert isinstance(card, Card)
+                self._cards.append(card)
+        except AssertionError:
+            raise TypeError('Not a valid Card type')
