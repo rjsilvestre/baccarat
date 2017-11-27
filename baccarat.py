@@ -56,7 +56,11 @@ class Card:
         """Return the representation string as if the object was
         called when creating a new instance.
         """
-        return f'Card({self._rank}, \'{self._suit}\')'
+        if isinstance(self._rank, str):
+            return f'Card(\'{self._rank}\', \'{self._suit}\')'
+        elif isinstance(self._rank, int):
+            return f'Card({self._rank}, \'{self._suit}\')'
+            
 
     def __str__(self):
         """Return a string with the rank and suit of the card."""
