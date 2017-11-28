@@ -138,6 +138,17 @@ class Shoe:
         return f'{self._num_decks} decks shoe. {len(self._cards)} cards left.'
 
 class Hand:
+    """A hand of cards to be played. Either from the bank or the player.
+
+    Args:
+        cards: list, a list of card objects to be added to the hand
+            using the add_cards() method.
+
+    Atributes:
+        cards: list, a list of card type objects.
+        value: int, the sum of the individual card values according to
+            baccarat rules.
+    """
     def __init__(self, cards):
         self._cards = []
         self.add_cards(cards)
@@ -151,6 +162,15 @@ class Hand:
         return sum(self._cards)
 
     def add_cards(self, cards):
+        """Add cards to the hand object.
+
+        Args:
+            cards: list, a list of card type objects
+
+        Raises:
+            TypeError: when a object different from card is present on the list
+                used as argument to the add_card() method.
+        """
         try:
             for card in cards:
                 assert isinstance(card, Card)
@@ -159,7 +179,11 @@ class Hand:
             raise TypeError('Not a valid Card type')
 
     def __repr__(self):
+        """Return the representation string as if the object was
+        called when creating a new instance.
+        """
         return f'Hand({self._cards})'
 
     def __str__(self):
+        """Return a string with all the cards on the hand."""
         return ', '.join([card.__str__() for card in self._cards])
