@@ -157,3 +157,9 @@ class Hand:
                 self._cards.append(card)
         except AssertionError:
             raise TypeError('Not a valid Card type')
+
+    def __repr__(self):
+        return f'Hand({self._cards})'
+
+    def __str__(self):
+        return ', '.join([card.__str__() for card in self._cards])
