@@ -26,18 +26,13 @@ class Card:
             raise ValueError('Invalid card suit.')
         self._rank = rank
         self._suit = suit
+        self._value = self._rank if self._rank in range(2, 10) \
+                    else 1 if self._rank == 'ace' \
+                    else 0
 
     @property
     def value(self):
-        """Returns the value of the card according to 
-        baccarat rules.
-        """
-        if self._rank in range(2, 10):
-            return self._rank
-        elif self._rank == 'ace':
-            return 1
-        else:
-            return 0
+        return self._value
 
     @property
     def rank(self):
@@ -48,7 +43,7 @@ class Card:
         return self._suit
 
     def __add__(self, other):
-        return (self.value + other) % 10
+        return (self._value + other) % 10
 
     __radd__ = __add__
 
@@ -152,6 +147,7 @@ class Hand:
     def __init__(self, cards):
         self._cards = []
         self.add_cards(cards)
+        self._value = sum(self._cards)
 
     @property
     def cards(self):
@@ -159,7 +155,7 @@ class Hand:
 
     @property
     def value(self):
-        return sum(self._cards)
+        return self._value
 
     def add_cards(self, cards):
         """Add cards to the hand object.
@@ -175,6 +171,7 @@ class Hand:
             for card in cards:
                 assert isinstance(card, Card)
                 self._cards.append(card)
+            self._value = sum(self._cards)
         except AssertionError:
             raise TypeError('Not a valid Card type object.')
 
@@ -185,7 +182,7 @@ class Hand:
         Returns:
             bol, True if is a natural, False otherwise.
         """
-        if len(self._cards) == 2 and 8 <= self.value <= 9:
+        if len(self._cards) == 2 and 8 <= self._value <= 9:
             return True
         return False
 
@@ -214,7 +211,7 @@ class Player(Hand):
                 False otherwise.
         """
         if len(self._cards) == 2:
-            if 0 <= self.value <= 5:
+            if 0 <= self._value <= 5:
                 return True
         return False
 
@@ -244,9 +241,9 @@ class Bank(Hand):
             if player_third:
                 try:
                     assert isinstance(player_third, Card)
-                    if 0 <= self.value <= 2:
+                    if 0 <= self._value <= 2:
                         return True
-                    elif player_third.value in third_card_rules[self.value]:
+                    elif player_third.value in third_card_rules[self._value]:
                         return True
                 except AssertionError:
                     raise TypeError('Player third card not a Card type object.')
@@ -254,6 +251,6 @@ class Bank(Hand):
                     return False
                 return False
             else:
-                if 0 <= self.value <= 5:
+                if 0 <= self._value <= 5:
                     return True
         return False
