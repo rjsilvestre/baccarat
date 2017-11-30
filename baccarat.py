@@ -189,20 +189,40 @@ class Hand:
         return ', '.join([card.__str__() for card in self._cards])
 
 class Player(Hand):
+    """Player hand of baccarat. Adds the third card check for
+    the player. Subclass of Hand.
+    """
     def __init__(self, cards):
         Hand.__init__(self, cards)
 
     def third_card(self):
+        """Verifies the need of a third card draw.
+
+        Returns:
+            bol, True if there is need to a third card draw,
+                False otherwise.
+        """
         if 0 <= self.value <= 5:
             return True
         return False
 
 class Bank(Hand):
+    """Bank hand of baccarat. Adds the third card check for
+    the bank. Subclass of Hand.
+    """
     def __init__(self, cards):
         Hand.__init__(self, cards)
 
     def third_card(self, player_third_card=None):
+        """Verifies the need of a third card draw.
 
+        Args:
+            player_third: Card object, third card of the player.
+
+        Returns:
+            bol, True if there is need to a third card draw,
+                False otherwise.
+        """
         third_card_rules = {3: [0, 1, 2, 3, 4, 5, 6, 7, 9],
                             4: [2, 3, 4, 5, 6, 7],
                             5: [4, 5, 6, 7],
