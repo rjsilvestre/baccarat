@@ -213,7 +213,7 @@ class Bank(Hand):
     def __init__(self, cards):
         Hand.__init__(self, cards)
 
-    def third_card(self, player_third_card=None):
+    def third_card(self, player_third=None):
         """Verifies the need of a third card draw.
 
         Args:
@@ -229,12 +229,12 @@ class Bank(Hand):
                             6: [6, 7]}
 
         if len(self._cards) == 2:
-            if player_third_card:
+            if player_third:
                 try:
-                    assert isinstance(player_third_card, Card)
+                    assert isinstance(player_third, Card)
                     if 0 <= self.value <= 2:
                         return True
-                    elif player_third_card.value in third_card_rules[self.value]:
+                    elif player_third.value in third_card_rules[self.value]:
                         return True
                 except AssertionError:
                     raise TypeError('Player third card not a Card type object.')
