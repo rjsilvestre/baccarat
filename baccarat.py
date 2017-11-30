@@ -187,3 +187,41 @@ class Hand:
     def __str__(self):
         """Return a string with all the cards on the hand."""
         return ', '.join([card.__str__() for card in self._cards])
+
+class Player(Hand):
+    def __init__(self, cards):
+        Hand.__init__(self, cards)
+
+    def third_card(self):
+        if 0 <= self.value <= 5:
+            return True
+        return False
+
+class Bank(Hand):
+    def __init__(self, cards):
+        Hand.__init__(self, cards)
+
+    def third_card(self, player_third_card=None):
+
+        third_card_rules = {3: [0, 1, 2, 3, 4, 5, 6, 7, 9],
+                            4: [2, 3, 4, 5, 6, 7],
+                            5: [4, 5, 6, 7],
+                            6: [6, 7]}
+
+        if len(self._cards) == 2:
+            if player_third_card:
+                try:
+                    assert isinstance(player_third_card, Card)
+                    if 0 <= self.value <= 2:
+                        return True
+                    elif player_third_card.value in third_card_rules[self.value]:
+                        return True
+                except AssertionError:
+                    raise TypeError('Player third card not a Card type object.')
+                except KeyError:
+                    return False
+                return False
+            else:
+                if 0 <= self.value <= 5:
+                    return True
+        return False
