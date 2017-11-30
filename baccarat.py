@@ -165,7 +165,7 @@ class Hand:
         """Add cards to the hand object.
 
         Args:
-            cards: list, a list of card type objects
+            cards: list, a list of card type objects.
 
         Raises:
             TypeError: when a object different from card is present on the list
@@ -176,7 +176,7 @@ class Hand:
                 assert isinstance(card, Card)
                 self._cards.append(card)
         except AssertionError:
-            raise TypeError('Not a valid Card type')
+            raise TypeError('Not a valid Card type object.')
 
     def __repr__(self):
         """Return the representation string as if the object was
