@@ -77,26 +77,29 @@ class Shoe:
         TypeError: If the num_decks is not an integer.
         ValueError: If the num_decks is not positive.
     """
-    def __init__(self, num_decks):
-        if not isinstance(num_decks, int):
+    def __init__(self, decks):
+        if not isinstance(decks, int):
             raise TypeError('Number of decks must be an integer.')
-        elif num_decks < 1:
+        elif decks < 1:
             raise ValueError('Number of decks must be positive.')
-        self._num_decks = num_decks
+        self._decks = decks
+        self._cards = []
         self.add_decks()
 
     @property
-    def num_decks(self):
-        return self._num_decks
+    def decks(self):
+        return self._decks
 
     @property
     def cards(self):
         return self._cards
 
-    def add_decks(self):
-        """Refils the shoe with num_decks decks."""
-        self._cards = []
-        for i in range(self._num_decks):
+    def add_decks(self, decks=None):
+        """Refils the shoe with decks. Uses self.decks value if empty."""
+        if not decks:
+            decks = self._decks
+
+        for i in range(decks):
             for suit in SUITS:
                 for rank in RANKS:
                    self._cards.append(Card(rank, suit)) 
