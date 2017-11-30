@@ -213,8 +213,9 @@ class Player(Hand):
             bol, True if there is need to a third card draw,
                 False otherwise.
         """
-        if 0 <= self.value <= 5:
-            return True
+        if len(self._cards) == 2:
+            if 0 <= self.value <= 5:
+                return True
         return False
 
 class Bank(Hand):
