@@ -178,6 +178,17 @@ class Hand:
         except AssertionError:
             raise TypeError('Not a valid Card type object.')
 
+    def is_natural(self):
+        """Check if the hand is a natural according to the rules of
+        the game.
+
+        Returns:
+            bol, True if is a natural, False otherwise.
+        """
+        if len(self._cards) == 2 and 8 <= self.value <= 9:
+            return True
+        return False
+
     def __repr__(self):
         """Return the representation string as if the object was
         called when creating a new instance.
