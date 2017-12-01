@@ -199,14 +199,14 @@ class Hand:
         """Return a string with all the cards on the hand."""
         return ', '.join([card.__str__() for card in self._cards])
 
-class Player(Hand):
-    """Player hand of baccarat. Adds the third card check for
+class Punto(Hand):
+    """Player(punto) hand of baccarat. Adds the third card check for
     the player. Subclass of Hand.
     """
     def __init__(self, cards):
         Hand.__init__(self, cards)
 
-    def third_card(self):
+    def draw_third(self):
         """Verifies the need of a third card draw.
 
         Returns:
@@ -218,14 +218,14 @@ class Player(Hand):
                 return True
         return False
 
-class Bank(Hand):
-    """Bank hand of baccarat. Adds the third card check for
+class Banco(Hand):
+    """Bank(banco) hand of baccarat. Adds the third card check for
     the bank. Subclass of Hand.
     """
     def __init__(self, cards):
         Hand.__init__(self, cards)
 
-    def third_card(self, player_third=None):
+    def draw_third(self, player_third=None):
         """Verifies the need of a third card draw.
 
         Args:
@@ -249,7 +249,7 @@ class Bank(Hand):
                     elif player_third.value in third_card_rules[self._value]:
                         return True
                 except AssertionError:
-                    raise TypeError('Player third card not a Card type object.')
+                    raise TypeError('Punto third card not a Card type object.')
                 except KeyError:
                     return False
                 return False
@@ -261,8 +261,8 @@ class Bank(Hand):
 
 def main():
     shoe = Shoe(2)
-    player = Player(shoe.draw_cards(2))
-    bank = Bank(shoe.draw_cards(2))
+    player = Punto(shoe.draw_cards(2))
+    bank = Banco(shoe.draw_cards(2))
 
     print(player)
     print(player.value)
@@ -272,17 +272,17 @@ def main():
 
     if player.is_natural() or bank.is_natural():
         if player.value > bank.value:
-            print('Player wins. Natural')
+            print('Punto wins. Natural')
         elif player.value < bank.value:
-            print('Bank wins. Natural')
+            print('Banco wins. Natural')
         else:
             print('Tie. Natural')
     else:
-        if player.third_card():
+        if player.draw_third():
             player.add_cards(shoe.draw_cards(1))
-            if bank.third_card(player.cards[2]):
+            if bank.draw_third(player.cards[2]):
                 bank.add_cards(shoe.draw_cards(1))
-        elif bank.third_card():
+        elif bank.draw_third():
             bank.add_cards(shoe.draw_cards(1))
 
         print(player)
@@ -292,9 +292,9 @@ def main():
         print()
 
         if player.value > bank.value:
-            print('Player wins.')
+            print('Punto wins.')
         elif player.value < bank.value:
-            print('Bank wins.')
+            print('Banco wins.')
         else:
             print('Tie.')
 
