@@ -257,3 +257,47 @@ class Bank(Hand):
                 if 0 <= self._value <= 5:
                     return True
         return False
+
+
+def main():
+    shoe = Shoe(2)
+    player = Player(shoe.draw_cards(2))
+    bank = Bank(shoe.draw_cards(2))
+
+    print(player)
+    print(player.value)
+    print(bank)
+    print(bank.value)
+    print()
+
+    if player.is_natural() or bank.is_natural():
+        if player.value > bank.value:
+            print('Player wins. Natural')
+        elif player.value < bank.value:
+            print('Bank wins. Natural')
+        else:
+            print('Tie. Natural')
+    else:
+        if player.third_card():
+            player.add_cards(shoe.draw_cards(1))
+            if bank.third_card(player.cards[2]):
+                bank.add_cards(shoe.draw_cards(1))
+        elif bank.third_card():
+            bank.add_cards(shoe.draw_cards(1))
+
+        print(player)
+        print(player.value)
+        print(bank)
+        print(bank.value)
+        print()
+
+        if player.value > bank.value:
+            print('Player wins.')
+        elif player.value < bank.value:
+            print('Bank wins.')
+        else:
+            print('Tie.')
+
+
+if __name__ == '__main__':
+    main()
