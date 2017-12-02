@@ -258,25 +258,30 @@ class Banco(Hand):
                     return True
         return False
 
-
-def main():
-    shoe = Shoe(2)
-    player = Punto(shoe.draw_cards(2))
-    bank = Banco(shoe.draw_cards(2))
-
+def show_status(player, bank):
     print(player)
     print(player.value)
     print(bank)
     print(bank.value)
     print()
 
+def check_winner(player, bank):
+    if player.value > bank.value:
+        return 'Punto wins.'
+    elif player.value < bank.value:
+        return 'Banco wins.'
+    else:
+        return 'Tie.'
+
+def main():
+    shoe = Shoe(2)
+    player = Punto(shoe.draw_cards(2))
+    bank = Banco(shoe.draw_cards(2))
+
+    show_status(player, bank)
+
     if player.is_natural() or bank.is_natural():
-        if player.value > bank.value:
-            print('Punto wins. Natural')
-        elif player.value < bank.value:
-            print('Banco wins. Natural')
-        else:
-            print('Tie. Natural')
+        print(f'{check_winner(player, bank)} Natural.')
     else:
         if player.draw_third():
             player.add_cards(shoe.draw_cards(1))
@@ -285,19 +290,8 @@ def main():
         elif bank.draw_third():
             bank.add_cards(shoe.draw_cards(1))
 
-        print(player)
-        print(player.value)
-        print(bank)
-        print(bank.value)
-        print()
-
-        if player.value > bank.value:
-            print('Punto wins.')
-        elif player.value < bank.value:
-            print('Banco wins.')
-        else:
-            print('Tie.')
-
+        show_status(player, bank)
+        print(check_winner(player, bank))
 
 if __name__ == '__main__':
     main()
