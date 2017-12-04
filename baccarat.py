@@ -262,6 +262,10 @@ class Player:
     _pid = 1
 
     def __init__(self, balance):
+        if not isinstance(balance, int):
+            raise TypeError('Balance must be an integer.')
+        elif balance < 1:
+            raise ValueError('Balance must be positive.')
         self._pid = Player._pid
         self._balance = balance
         self._hand_bet = None
