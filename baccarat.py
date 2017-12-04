@@ -258,6 +258,63 @@ class Banco(Hand):
                     return True
         return False
 
+class Player:
+    _id = 1
+
+    def __init__(self, balance):
+        self._id = Player._id
+        self._balance = balance
+        self._hand_bet = None
+        self._amount_bet = 0
+        Player._id += 1
+
+    @property
+    def balance(self):
+        return self._balance
+
+    @property
+    def hand_bet(self):
+        return self._hand_bet
+
+    @hand_bet.setter
+    def hand_bet(self, hand):
+        if hand not in ('punto', 'banco'):
+            raise ValueError('Invalid hand')
+        self._hand_bet = hand
+
+    @property
+    def amount_bet(self):
+        return self._amount_bet
+
+    @amount_bet.setter
+    def amount_bet(self, amount):
+        if not isinstance(amount, int) or amount < 1:
+            raise TypeError('Amount must be an positive integer.')
+        if amount > self._balance:
+            raise ValueError('Amount exceeds available balance.')
+        self._balance -= amount
+        self._amount_bet = amount
+
+    def result(self, result):
+        results = {'win': self.win, 'lose': self.lose}
+        if self._hand_bet not in ('punto', 'banco') or self._amount_bet == 0:
+            raise TypeError('Player does not have a valid bet')
+        if result not in ('win', 'lose'):
+            raise TypeError('Invalid result')
+        results[result]()
+
+    def win(self):
+        if self._hand_bet == 'punto':
+            self._balance = self._balance + (self._amount_bet * 2)
+        elif self._hand_bet == 'banco':
+            self._balance = self._balance + (self._amount_bet * 1.95)
+        self.lose()
+
+    def lose(self):
+        self._hand_bet = None
+        self._amount_bet = 0
+
+
 def show_status(player, bank):
     print(player)
     print(player.value)
