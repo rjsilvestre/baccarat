@@ -299,24 +299,31 @@ class Player:
         self._balance -= amount
         self._amount_bet = amount
 
-    def result(self, result):
-        results = {'win': self.win, 'lose': self.lose}
-        if self._hand_bet not in ('punto', 'banco') or self._amount_bet == 0:
-            raise TypeError('Player does not have a valid bet')
-        if result not in ('win', 'lose'):
-            raise TypeError('Invalid result')
-        results[result]()
+    def is_valid_bet(self):
+        if self._hand_bet not in ('punto', 'banco') or self._amount_bet <= 0:
+            return False
+        return True
 
     def win(self):
-        if self._hand_bet == 'punto':
-            self._balance = self._balance + (self._amount_bet * 2)
-        elif self._hand_bet == 'banco':
-            self._balance = self._balance + (self._amount_bet * 1.95)
-        self.lose()
+        if self.is_valid_bet():
+            if self._hand_bet == 'punto':
+                self._balance = self._balance + int(self._amount_bet * 2)
+            elif self._hand_bet == 'banco':
+                self._balance = self._balance + int(self._amount_bet * 1.95)
+            self._hand_bet = None
+            self._amount_bet = 0
+        else:
+            raise InvalidBet('Player does not have a valid bet')
 
     def lose(self):
-        self._hand_bet = None
-        self._amount_bet = 0
+        if self.is_valid_bet():
+            self._hand_bet = None
+            self._amount_bet = 0
+        else:
+            raise InvalidBet('Player does not have a valid bet')
+
+class InvalidBet(Exception):
+    pass
 
 
 def show_status(player, banker):
