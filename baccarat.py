@@ -136,7 +136,7 @@ class Shoe:
         return f'{self._num_decks} decks shoe. {len(self._cards)} cards left.'
 
 class Hand:
-    """A hand of cards to be played. Either from the bank or the player.
+    """A hand of cards to be played. Either from the banker or the player.
 
     Args:
         cards: list, a list of card objects to be added to the hand
@@ -219,8 +219,8 @@ class Punto(Hand):
         return False
 
 class Banco(Hand):
-    """Bank(banco) hand of baccarat. Adds the third card check for
-    the bank. Subclass of Hand.
+    """Banker(banco) hand of baccarat. Adds the third card check for
+    the banker. Subclass of Hand.
     """
     def __init__(self, cards):
         Hand.__init__(self, cards)
@@ -315,17 +315,17 @@ class Player:
         self._amount_bet = 0
 
 
-def show_status(player, bank):
+def show_status(player, banker):
     print(player)
     print(player.value)
-    print(bank)
-    print(bank.value)
+    print(banker)
+    print(banker.value)
     print()
 
-def check_winner(player, bank):
-    if player.value > bank.value:
+def check_winner(player, banker):
+    if player.value > banker.value:
         return 'Punto wins.'
-    elif player.value < bank.value:
+    elif player.value < banker.value:
         return 'Banco wins.'
     else:
         return 'Tie.'
@@ -333,22 +333,22 @@ def check_winner(player, bank):
 def main():
     shoe = Shoe(2)
     player = Punto(shoe.draw_cards(2))
-    bank = Banco(shoe.draw_cards(2))
+    banker = Banco(shoe.draw_cards(2))
 
-    show_status(player, bank)
+    show_status(player, banker)
 
-    if player.is_natural() or bank.is_natural():
-        print(f'{check_winner(player, bank)} Natural.')
+    if player.is_natural() or banker.is_natural():
+        print(f'{check_winner(player, banker)} Natural.')
     else:
         if player.draw_third():
             player.add_cards(shoe.draw_cards(1))
-            if bank.draw_third(player.cards[2]):
-                bank.add_cards(shoe.draw_cards(1))
-        elif bank.draw_third():
-            bank.add_cards(shoe.draw_cards(1))
+            if banker.draw_third(player.cards[2]):
+                banker.add_cards(shoe.draw_cards(1))
+        elif banker.draw_third():
+            banker.add_cards(shoe.draw_cards(1))
 
-        show_status(player, bank)
-        print(check_winner(player, bank))
+        show_status(player, banker)
+        print(check_winner(player, banker))
 
 if __name__ == '__main__':
     main()
