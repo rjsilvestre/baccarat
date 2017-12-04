@@ -259,14 +259,18 @@ class Banco(Hand):
         return False
 
 class Player:
-    _id = 1
+    _pid = 1
 
     def __init__(self, balance):
-        self._id = Player._id
+        self._pid = Player._pid
         self._balance = balance
         self._hand_bet = None
         self._amount_bet = 0
-        Player._id += 1
+        Player._pid += 1
+
+    @property
+    def pid(self):
+        return self._pid
 
     @property
     def balance(self):
