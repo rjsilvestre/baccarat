@@ -320,6 +320,14 @@ class Player:
         else:
             raise InvalidBet('Player does not have a valid bet')
 
+    def __repr__(self):
+        return f'Player({self._balance})'
+
+    def __str__(self):
+        bet = f'\nHand bet: {self._hand_bet}\nAmount bet: {self._amount_bet}'
+        no_bet = '\nNo bet'
+        return f'Player: {self._pid}\nBalance: {self._balance}{bet if self.is_valid_bet() else no_bet}'
+
 class InvalidBet(Exception):
     pass
 
