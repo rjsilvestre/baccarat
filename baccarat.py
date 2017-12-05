@@ -170,13 +170,11 @@ class Hand:
             TypeError: when a object different from card is present on the list
                 used as argument to the add_card() method.
         """
-        try:
-            for card in cards:
-                assert isinstance(card, Card)
-                self._cards.append(card)
-            self._value = sum(self._cards)
-        except AssertionError:
-            raise TypeError('Not a valid Card type object.')
+        for card in cards:
+            if not isinstance(card, Card):
+                raise TypeError('Not a valid Card type object.')
+            self._cards.append(card)
+        self._value = sum(self._cards)
 
     def is_natural(self):
         """Check if the hand is a natural according to the rules of
@@ -242,17 +240,13 @@ class Banco(Hand):
 
         if len(self._cards) == 2:
             if player_third:
-                try:
-                    assert isinstance(player_third, Card)
-                    if 0 <= self._value <= 2:
-                        return True
-                    elif player_third.value in third_card_rules[self._value]:
-                        return True
-                except AssertionError:
+                if not isinstance(player_third, Card):
                     raise TypeError('Punto third card not a Card type object.')
-                except KeyError:
-                    return False
-                return False
+                if 0 <= self._value <= 2:
+                    return True
+                elif 3 <= self._value <= 6:
+                    if player_third.value in third_card_rules[self._value]:
+                        return True
             else:
                 if 0 <= self._value <= 5:
                     return True
