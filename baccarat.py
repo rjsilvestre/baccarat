@@ -32,14 +32,17 @@ class Card:
 
     @property
     def value(self):
+        """Get card value."""
         return self._value
 
     @property
     def rank(self):
+        """Get card rank."""
         return self._rank
 
     @property
     def suit(self):
+        """Get card suit."""
         return self._suit
 
     def __add__(self, other):
@@ -88,10 +91,12 @@ class Shoe:
 
     @property
     def decks(self):
+        """Get shoe number of decks."""
         return self._decks
 
     @property
     def cards(self):
+        """Get shoe cards list."""
         return self._cards
 
     def add_decks(self, decks=None):
@@ -154,10 +159,12 @@ class Hand:
 
     @property
     def cards(self):
+        """Get hand cards list."""
         return self._cards
 
     @property
     def value(self):
+        """Get hand value."""
         return self._value
 
     def add_cards(self, cards):
