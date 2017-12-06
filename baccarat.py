@@ -391,6 +391,21 @@ class Player:
 class InvalidBet(Exception):
     pass
 
+class Game:
+    def __init__(self, num_decks, balances):
+        self._shoe = Shoe(num_decks)
+        self._players = []
+        for balance in balances:
+            self._players.append(Player(balance))
+
+    def deal_hands(self):
+        self._punto = Punto(self.shoe.draw_cards(2))
+        self._banco = Banco(self.shoe.draw_cards(2))
+        return (self._punto, self._banco)
+
+    def is_natural(self):
+        return self._punto.is_natural() or self._banco.is_natural()
+
 
 def show_status(player, banker):
     print(player)
