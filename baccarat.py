@@ -384,9 +384,9 @@ class Player:
         """Return a string separated by new lines with the id, amount and bet
         of the player in case there is a valid one.
         """
-        bet = f'\nHand bet: {self._hand_bet}\nAmount bet: {self._amount_bet}'
-        no_bet = '\nNo bet'
-        return f'Player: {self._pid}\nBalance: {self._balance}{bet if self.is_valid_bet() else no_bet}'
+        bet = f'Hand bet: {self._hand_bet}, Amount bet: {self._amount_bet}'
+        no_bet = 'No bet'
+        return f'Player: {self._pid}, Balance: {self._balance}, {bet if self.is_valid_bet() else no_bet}'
 
 class Game:
     def __init__(self, num_decks=8):
