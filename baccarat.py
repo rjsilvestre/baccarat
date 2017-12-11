@@ -388,23 +388,146 @@ class Player:
         no_bet = '\nNo bet'
         return f'Player: {self._pid}\nBalance: {self._balance}{bet if self.is_valid_bet() else no_bet}'
 
+class Game:
+    def __init__(self, num_decks=8):
+        self._game_running = False
+        self._players = []
+        self._punto = []
+        self._banco = []
+        self.create_shoe(num_decks)
+
+    @property
+    def punto_value(self):
+        return self._punto.value
+
+    @property
+    def punto_cards(self):
+        return ', '.join([card.__str__() for card in self._punto.cards])
+
+    @property
+    def banco_value(self):
+        return self._banco.value
+
+    @property
+    def banco_cards(self):
+        return ', '.join([card.__str__() for card in self._banco.cards])
+
+    @property
+    def num_decks(self):
+        return self._shoe.num_decks
+
+    def create_shoe(self, num_decks):
+        self._shoe = Shoe(num_decks)
+        self._num_decks = num_decks
+
+    def deal_hands(self):
+        if self._game_running:
+            raise GameError('Game is running')
+        self._punto = Punto(self._shoe.draw_cards(2))
+        self._banco = Banco(self._shoe.draw_cards(2))
+        self._game_running = True
+
+    def is_natural(self):
+        if not self._game_running:
+            raise GameError('Game is not running.')
+        natural = self._punto.is_natural() or self._banco.is_natural()
+        if natural:
+            self._game_running = False
+        return natural
+
+    def draw_thirds(self):
+        if not self._game_running:
+            raise GameError('Game is not running.')
+        if self.is_natural():
+            raise GameError('Can\'t draw third cards when there is a natural.')
+        third_draws = []
+        if self._punto.draw_third():
+            self._punto.add_cards(self._shoe.draw_cards(1))
+            third_draws.append(['punto', self._punto.cards[2].__str__()])
+            if self._banco.draw_third(self._punto.cards[2]):
+                self._banco.add_cards(self._shoe.draw_cards(1))
+                third_draws.append(['banco', self._banco.cards[2].__str__()])
+        elif self._banco.draw_third():
+            self._banco.add_cards(self._shoe.draw_cards(1))
+            third_draws.append(['banco', self._banco.cards[2].__str__()])
+        self._game_running = False
+        return third_draws
+
+    def game_result(self):
+        if self._game_running:
+            raise GameError('Game is running.')
+        if self._punto.value > self._banco.value:
+            return 'punto'
+        elif self._punto.value < self._banco.value:
+            return 'banco'
+        else:
+            return 'tie'
+
+    def __repr__(self):
+        return f'Game({self._shoe.num_decks})'
+
+class Table(Game):
+    def __init__(self, num_decks=8):
+        self._bets_open = True
+        Game.__init__(self, num_decks)
+
+    @property
+    def num_players(self):
+        return len(self._players)
+
+    @property
+    def available_players(self):
+        players = []
+        for player in self._players:
+            if player.balance > 0 or player.is_valid_bet():
+                players.append(self._players.index(player))
+        return players
+
+    @property
+    def valid_bets(self):
+        players = []
+        for player_i in self.available_players:
+            if self._players[player_i].is_valid_bet():
+                players.append(player_i)
+        return players
+
+    def deal_hands(self):
+        if not self._bets_open:
+            raise GameError('There are some bets on table.')
+        self._bets_open = False
+        Game.deal_hands(self)
+
+    def add_player(self, balance):
+        self._players.append(Player(balance))
+
+    def bet(self, player_i, hand_bet, amount_bet):
+        if not self._bets_open:
+            raise GameError('A player cannot make a bet after the hands are dealt.')
+        self._players[player_i].hand_bet = hand_bet
+        self._players[player_i].amount_bet = amount_bet
+
+    def bet_result(self, player_i):
+        if self._players[player_i].hand_bet == self.game_result():
+            self._players[player_i].win()
+            result = ('win', self._players[player_i].balance)
+        else:
+            self._players[player_i].lose()
+            result = ('lose', self._players[player_i].balance)
+        if not self.valid_bets:
+            self._bets_open = True
+        return result
+
+    def __getitem__(self, player_i):
+        return self._players[player_i].__str__()
+
+    def __repr__(self):
+        return f'Table({self._shoe.num_decks})'
+
 class InvalidBet(Exception):
     pass
 
-class Game:
-    def __init__(self, num_decks, balances):
-        self._shoe = Shoe(num_decks)
-        self._players = []
-        for balance in balances:
-            self._players.append(Player(balance))
-
-    def deal_hands(self):
-        self._punto = Punto(self.shoe.draw_cards(2))
-        self._banco = Banco(self.shoe.draw_cards(2))
-        return (self._punto, self._banco)
-
-    def is_natural(self):
-        return self._punto.is_natural() or self._banco.is_natural()
+class GameError(Exception):
+    pass
 
 
 def show_status(player, banker):
