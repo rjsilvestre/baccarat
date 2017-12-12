@@ -316,8 +316,7 @@ class Player:
 
     @property
     def amount_bet(self):
-        """Get the amount of a bet. Setting the amount of the bet will
-        deduct the balance automaticaly.
+        """Get the amount of a bet.
 
         Raises:
             TypeError: When setting if the amount is a integer.
@@ -332,7 +331,6 @@ class Player:
             raise TypeError('Amount must be an positive integer.')
         if amount > self._balance:
             raise ValueError('Amount exceeds available balance.')
-        self._balance -= amount
         self._amount_bet = amount
 
     def is_valid_bet(self):
@@ -354,11 +352,11 @@ class Player:
         """
         if self.is_valid_bet():
             if self._hand_bet == 'punto':
-                self._balance += int(self._amount_bet * 2)
+                self._balance += int(self._amount_bet * 1)
             elif self._hand_bet == 'banco':
-                self._balance += int(self._amount_bet * 1.95)
+                self._balance += int(self._amount_bet * 0.95)
             elif self._hand_bet == 'tie':
-                self._balance += int(self._amount_bet * 9)
+                self._balance += int(self._amount_bet * 8)
             self._hand_bet = None
             self._amount_bet = 0
         else:
@@ -371,6 +369,7 @@ class Player:
             InvalidBet: If the player does not have a valid bet.
         """
         if self.is_valid_bet():
+            self._balance -= self._amount_bet
             self._hand_bet = None
             self._amount_bet = 0
         else:
@@ -481,7 +480,7 @@ class Table(Game):
     def available_players(self):
         players = []
         for player in self._players:
-            if player.balance > 0 or player.is_valid_bet():
+            if player.balance > 0:
                 players.append(self._players.index(player))
         return players
 
