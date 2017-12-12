@@ -303,14 +303,14 @@ class Player:
         """Get the hand on which the bet was made.
 
         Raises:
-            ValueError: When setting if the value is neither punto
-                or banco.
+            ValueError: When setting if the value is neither punto,
+                banco or tie.
         """
         return self._hand_bet
 
     @hand_bet.setter
     def hand_bet(self, hand):
-        if hand not in ('punto', 'banco'):
+        if hand not in ['punto', 'banco', 'tie']:
             raise ValueError('Invalid hand')
         self._hand_bet = hand
 
@@ -341,7 +341,7 @@ class Player:
         Returns:
             bol, True if the bet is valid, False otherwise.
         """
-        if self._hand_bet not in ('punto', 'banco') or self._amount_bet <= 0:
+        if self._hand_bet not in ['punto', 'banco', 'tie'] or self._amount_bet <= 0:
             return False
         return True
 
@@ -354,9 +354,11 @@ class Player:
         """
         if self.is_valid_bet():
             if self._hand_bet == 'punto':
-                self._balance = self._balance + int(self._amount_bet * 2)
+                self._balance += int(self._amount_bet * 2)
             elif self._hand_bet == 'banco':
-                self._balance = self._balance + int(self._amount_bet * 1.95)
+                self._balance += int(self._amount_bet * 1.95)
+            elif self._hand_bet == 'tie':
+                self._balance += int(self._amount_bet * 9)
             self._hand_bet = None
             self._amount_bet = 0
         else:
