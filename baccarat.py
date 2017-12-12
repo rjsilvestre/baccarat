@@ -327,8 +327,10 @@ class Player:
 
     @amount_bet.setter
     def amount_bet(self, amount):
-        if not isinstance(amount, int) or amount < 1:
-            raise TypeError('Amount must be an positive integer.')
+        if not isinstance(amount, int):
+            raise TypeError('Amount must be a integer.')
+        if amount < 1:
+            raise ValueError('Amount must be positive.')
         if amount > self._balance:
             raise ValueError('Amount exceeds available balance.')
         self._amount_bet = amount
