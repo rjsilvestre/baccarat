@@ -155,7 +155,6 @@ class Hand:
     def __init__(self, cards):
         self._cards = []
         self.add_cards(cards)
-        self._value = sum(self._cards)
 
     @property
     def cards(self):
@@ -165,7 +164,7 @@ class Hand:
     @property
     def value(self):
         """Get hand value."""
-        return self._value
+        return sum(self._cards)
 
     def add_cards(self, cards):
         """Add cards to the hand object.
@@ -181,7 +180,6 @@ class Hand:
             if not isinstance(card, Card):
                 raise TypeError('Not a valid Card type object.')
             self._cards.append(card)
-        self._value = sum(self._cards)
 
     def is_natural(self):
         """Check if the hand is a natural according to the rules of
