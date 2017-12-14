@@ -188,7 +188,7 @@ class Hand:
         Returns:
             bol, True if is a natural, False otherwise.
         """
-        if len(self._cards) == 2 and 8 <= self._value <= 9:
+        if len(self._cards) == 2 and 8 <= self.value <= 9:
             return True
         return False
 
@@ -217,7 +217,7 @@ class Punto(Hand):
                 False otherwise.
         """
         if len(self._cards) == 2:
-            if 0 <= self._value <= 5:
+            if 0 <= self.value <= 5:
                 return True
         return False
 
@@ -247,13 +247,13 @@ class Banco(Hand):
             if player_third:
                 if not isinstance(player_third, Card):
                     raise TypeError('Punto third card not a Card type object.')
-                if 0 <= self._value <= 2:
+                if 0 <= self.value <= 2:
                     return True
-                elif 3 <= self._value <= 6:
-                    if player_third.value in third_card_rules[self._value]:
+                elif 3 <= self.value <= 6:
+                    if player_third.value in third_card_rules[self.value]:
                         return True
             else:
-                if 0 <= self._value <= 5:
+                if 0 <= self.value <= 5:
                     return True
         return False
 
