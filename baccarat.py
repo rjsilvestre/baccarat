@@ -393,24 +393,32 @@ class Game:
     def __init__(self, num_decks=8):
         self._game_running = False
         self._players = []
-        self._punto = []
-        self._banco = []
+        self._punto = None
+        self._banco = None
         self.create_shoe(num_decks)
 
     @property
     def punto_value(self):
+        if not self._punto:
+            raise ValueError('No hands were dealt.')
         return self._punto.value
 
     @property
     def punto_cards(self):
+        if not self._punto:
+            raise ValueError('No hands were dealt.')
         return ', '.join([card.__str__() for card in self._punto.cards])
 
     @property
     def banco_value(self):
+        if not self._banco:
+            raise ValueError('No hands were dealt.')
         return self._banco.value
 
     @property
     def banco_cards(self):
+        if not self._banco:
+            raise ValueError('No hands were dealt.')
         return ', '.join([card.__str__() for card in self._banco.cards])
 
     @property
