@@ -562,13 +562,13 @@ class Table(Game):
         Game.__init__(self, num_decks)
 
     @property
-    """Retuns the total number of players."""
     def num_players(self):
+        """Retuns the total number of players."""
         return len(self._players)
 
     @property
-    """Returns the list of indexes of the players with positive balance."""
     def available_players(self):
+        """Returns the list of indexes of the players with positive balance."""
         players = []
         for player in self._players:
             if player.balance > 0:
@@ -576,8 +576,8 @@ class Table(Game):
         return players
 
     @property
-    """Returns the list of players with valid bets on table."""
     def valid_bets(self):
+        """Returns the list of players with valid bets on table."""
         players = []
         for player_i in self.available_players:
             if self._players[player_i].is_valid_bet():
