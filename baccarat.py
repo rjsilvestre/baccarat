@@ -686,10 +686,22 @@ Options:
 0: Quit''')
 
     def available_players(self):
-        pass
+        if self._game.available_players:
+            for player in self._game.available_players:
+                print(self._game[player])
+        else:
+            print('No players present on the table.')
+        input('Press <enter> to continue...')
 
     def add_player(self):
-        pass
+        try:
+            balance = input('Initial balance for the new player: ')
+            self._game.add_player(int(balance))
+        except (ValueError, TypeError):
+            print('Invalid balance.')
+        else:
+            print(f'Player added with {balance} balance.')
+        input('Press <enter> to continue...')
 
     def bet(self):
         pass
