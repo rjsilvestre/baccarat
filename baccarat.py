@@ -387,7 +387,7 @@ class Player:
         """
         bet = f'Hand bet: {self._hand_bet}, Amount bet: {self._amount_bet}'
         no_bet = 'No bet'
-        return f'Player: {self._pid}, Balance: {self._balance}, {bet if self.is_valid_bet() else no_bet}'
+        return f'Player: {self._pid}, Balance: {self._balance}, {bet if self.is_valid_bet() else no_bet}.'
 
 class Game:
     """Application of the rules of baccarat - punto banco variation. This class
