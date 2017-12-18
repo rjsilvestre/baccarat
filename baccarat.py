@@ -650,6 +650,61 @@ class InvalidBet(Exception):
 class GameError(Exception):
     pass
 
+class Cli:
+    def __init__(self):
+        self._game = Table()
+        self._quit = False
+        self._options = {
+            '1': self.available_players,
+            '2': self.add_player,
+            '3': self.bet,
+            '4': self.deal_hands,
+            '5': self.create_shoe,
+            '0': self.quit
+            }
+
+    def run(self):
+        print('Welcome to Baccarat Punto Banco')
+        while not self._quit:
+            self.print_menu()
+            print()
+            selection = input('Your selection: ')
+            print()
+            if selection and selection in self._options:
+                self._options.get(self._options[selection]())
+            else:
+                print('Selection not recognized.')
+
+    def print_menu(self):
+        print('''
+Options:
+1: List available players
+2: Add player
+3: Place bets
+4: Deal cards
+5: Change shoe
+0: Quit''')
+
+    def available_players(self):
+        pass
+
+    def add_player(self):
+        pass
+
+    def bet(self):
+        pass
+
+    def deal_hands(self):
+        pass
+
+    def create_shoe(self):
+        pass
+
+    def quit(self):
+        confirmation = input('Do you really wish to quit? ')
+        if confirmation.lower() in ['y', 'yes']:
+            self._quit = True
+
 
 def show_status(player, banker):
     print(player)
