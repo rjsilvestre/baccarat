@@ -710,7 +710,17 @@ Options:
         pass
 
     def create_shoe(self):
-        pass
+        shoe_input = input('The number of decks for the new shoe or <c> to cancel: ')
+        if shoe_input.lower() in ['c', 'cancel']:
+            return
+        else:
+            try:
+                self._game.create_shoe(int(shoe_input))
+                print(f'A new shoe with {int(shoe_input)} deck(s) will be used on the game.')
+                input('Press <enter> to continue...')
+            except (ValueError, TypeError):
+                print('Invalid number of decks.')
+                self.create_shoe()
 
     def quit(self):
         confirmation = input('Do you really wish to quit? ')
