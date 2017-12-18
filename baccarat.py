@@ -694,14 +694,17 @@ Options:
         input('Press <enter> to continue...')
 
     def add_player(self):
-        try:
-            balance = input('Initial balance for the new player: ')
-            self._game.add_player(int(balance))
-        except (ValueError, TypeError):
-            print('Invalid balance.')
+        balance_input = input('Initial balance for the new player or <c> to cancel: ')
+        if balance_input.lower() in ['c', 'cancel']:
+            return
         else:
-            print(f'Player added with {balance} balance.')
-        input('Press <enter> to continue...')
+            try:
+                self._game.add_player(int(balance_input))
+                print(f'Player added with {balance_input} balance.')
+                input('Press <enter> to continue...')
+            except (ValueError, TypeError):
+                print('Invalid balance.')
+                self.add_player()
 
     def bet(self):
         pass
@@ -723,9 +726,14 @@ Options:
                 self.create_shoe()
 
     def quit(self):
-        confirmation = input('Do you really wish to quit? ')
-        if confirmation.lower() in ['y', 'yes']:
+        quit_input = input('Do you really wish to quit? <y/n> ')
+        if quit_input.lower() in ['y', 'yes']:
             self._quit = True
+        elif quit_input.lower() in ['n', 'no']:
+            return
+        else:
+            print('Invalid input.')
+            self.quit()
 
 
 def show_status(player, banker):
