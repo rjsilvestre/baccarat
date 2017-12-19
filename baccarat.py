@@ -666,7 +666,14 @@ class Cli:
     def run(self):
         print('Welcome to Baccarat Punto Banco')
         while not self._quit:
-            self.print_menu()
+            print('''
+Options:
+1: Players status
+2: Add player
+3: Place bets
+4: Deal cards
+5: Change shoe
+0: Quit''')
             print()
             selection = input('Your selection: ')
             print()
@@ -674,16 +681,6 @@ class Cli:
                 self._options.get(self._options[selection]())
             else:
                 print('Selection not recognized.')
-
-    def print_menu(self):
-        print('''
-Options:
-1: List available players
-2: Add player
-3: Place bets
-4: Deal cards
-5: Change shoe
-0: Quit''')
 
     def available_players(self):
         if self._game.available_players:
