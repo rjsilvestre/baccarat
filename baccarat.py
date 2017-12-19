@@ -309,7 +309,7 @@ class Player:
     @hand_bet.setter
     def hand_bet(self, hand):
         if hand not in ['punto', 'banco', 'tie']:
-            raise ValueError('Invalid hand')
+            raise ValueError('Invalid hand.')
         self._hand_bet = hand
 
     @property
@@ -360,7 +360,7 @@ class Player:
             self._hand_bet = None
             self._amount_bet = 0
         else:
-            raise InvalidBet('Player does not have a valid bet')
+            raise InvalidBet('Player does not have a valid bet.')
 
     def lose(self):
         """Performs the necessary action upon a player lose: resets the bet.
@@ -373,7 +373,7 @@ class Player:
             self._hand_bet = None
             self._amount_bet = 0
         else:
-            raise InvalidBet('Player does not have a valid bet')
+            raise InvalidBet('Player does not have a valid bet.')
 
     def __repr__(self):
         """Return the representation string as if the object was
@@ -657,7 +657,7 @@ class Cli:
         self._options = {
             '1': self.available_players,
             '2': self.add_player,
-            '3': self.bet,
+            '3': self.place_bets,
             '4': self.deal_hands,
             '5': self.create_shoe,
             '0': self.quit
@@ -706,8 +706,41 @@ Options:
                 print('Invalid balance.')
                 self.add_player()
 
-    def bet(self):
-        pass
+    def place_bets(self):
+        if self._game.available_players:
+            for player_i in self._game.available_players:
+                self.bet(player_i)
+            print('All bets placed.')
+        else:
+            print('No players to place bets.')
+        input('Press <enter> to continue...')
+
+    def bet(self, player_i):
+        hands = {
+            'p': 'punto',
+            'punto': 'punto',
+            'b': 'banco',
+            'banco': 'banco',
+            't': 'tie',
+            'tie': 'tie'
+            }
+        action = 'Replacing' if player_i in self._game.valid_bets else 'New'
+        print(f'{action} bet for Player {player_i + 1}. Press <s> to skip.')
+        hand_input = input('Please type the hand to bet. <p> punto, <b> banco, <t> tie. ')
+        if hand_input.lower() in ['s', 'skip']:
+            print()
+            return
+        amount_input = input('Please type the amount to bet. ')
+        if amount_input.lower() in ['s', 'skip']:
+            print()
+            return
+        try:
+            self._game.bet(player_i, hands.get(hand_input.lower()), int(amount_input))
+            print()
+        except (ValueError, TypeError, GameError):
+            print('Invalid bet.')
+            print()
+            self.bet(player_i)
 
     def deal_hands(self):
         pass
