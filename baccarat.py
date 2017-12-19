@@ -1,4 +1,5 @@
 import random
+import time
 
 SUITS = ['hearts', 'spades', 'clubs', 'diamonds']
 RANKS = ['ace', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'jack', 'queen', 'king']
@@ -694,14 +695,18 @@ Options:
         balance_input = input('Initial balance for the new player or <c> to cancel: ')
         if balance_input.lower() in ['c', 'cancel']:
             return
-        else:
+        try:
+            # Try to convert to int but don't capture error
             try:
-                self._game.add_player(int(balance_input))
-                print(f'Player added with {balance_input} balance.')
-                input('Press <enter> to continue...')
-            except (ValueError, TypeError):
-                print('Invalid balance.')
-                self.add_player()
+                balance_input = int(balance_input)
+            except:
+                pass
+            self._game.add_player(balance_input)
+            print(f'Player added with {balance_input} balance.')
+            input('Press <enter> to continue...')
+        except (ValueError, TypeError) as error:
+            print(error)
+            self.add_player()
 
     def place_bets(self):
         if self._game.available_players:
@@ -732,11 +737,16 @@ Options:
             print()
             return
         try:
-            self._game.bet(player_i, hands.get(hand_input.lower()), int(amount_input))
+            # Try to convert to int but don't capture error
+            try:
+                amount_input = int(amount_input)
+            except:
+                pass
+            self._game.bet(player_i, hands.get(hand_input.lower()), amount_input)
             print()
-        except (ValueError, TypeError, GameError):
-            print('Invalid bet.')
+        except (ValueError, TypeError, GameError) as error:
             print()
+            print(error)
             self.bet(player_i)
 
     def deal_hands(self):
@@ -746,14 +756,18 @@ Options:
         shoe_input = input('The number of decks for the new shoe or <c> to cancel: ')
         if shoe_input.lower() in ['c', 'cancel']:
             return
-        else:
+        try:
+            # Try to convert to int but don't capture error
             try:
-                self._game.create_shoe(int(shoe_input))
-                print(f'A new shoe with {int(shoe_input)} deck(s) will be used on the game.')
-                input('Press <enter> to continue...')
-            except (ValueError, TypeError):
-                print('Invalid number of decks.')
-                self.create_shoe()
+                shoe_input = int(shoe_input)
+            except:
+                pass
+            self._game.create_shoe(shoe_input)
+            print(f'A new shoe with {int(shoe_input)} deck(s) will be used on the game.')
+            input('Press <enter> to continue...')
+        except (ValueError, TypeError) as error:
+            print(error)
+            self.create_shoe()
 
     def quit(self):
         quit_input = input('Do you really wish to quit? <y/n> ')
