@@ -702,9 +702,11 @@ Options:
             except:
                 pass
             self._game.add_player(balance_input)
+            print()
             print(f'Player added with {balance_input} balance.')
             input('Press <enter> to continue...')
         except (ValueError, TypeError) as error:
+            print()
             print(error)
             self.add_player()
 
@@ -763,9 +765,11 @@ Options:
             except:
                 pass
             self._game.create_shoe(shoe_input)
+            print()
             print(f'A new shoe with {int(shoe_input)} deck(s) will be used on the game.')
             input('Press <enter> to continue...')
         except (ValueError, TypeError) as error:
+            print()
             print(error)
             self.create_shoe()
 
