@@ -655,6 +655,9 @@ class GameError(Exception):
     pass
 
 class Cli:
+    """Command line interface of the game. Only interacts with Table object in
+    order to receive input from the game logic.
+    """
     def __init__(self):
         self._game = Table()
         self._quit = False
@@ -668,6 +671,7 @@ class Cli:
             }
 
     def run(self):
+        """Main menu of the game."""
         print('Welcome to Baccarat Punto Banco')
         while not self._quit:
             print('''
@@ -687,6 +691,7 @@ Options:
                 print('Selection not recognized.')
 
     def status(self):
+        """Prints the players status and other in game information."""
         print(f'Shoe with {self._game.num_decks} deck(s).')
         if self._game.available_players:
             print(f'{len(self._game.available_players)} player(s) in game:')
@@ -697,6 +702,7 @@ Options:
         input('Press <enter> to continue...')
 
     def add_player(self):
+        """Adds a new player to the game."""
         balance_input = input('Initial balance for the new player or <c> to cancel: ')
         if balance_input.lower() in ['c', 'cancel']:
             return
@@ -716,6 +722,9 @@ Options:
             self.add_player()
 
     def place_bets(self):
+        """Loops through out all the available player to place the individual
+        bets.
+        """
         if self._game.available_players:
             for player_i in self._game.available_players:
                 self.bet(player_i)
@@ -725,6 +734,7 @@ Options:
         input('Press <enter> to continue...')
 
     def bet(self, player_i):
+        """Places an individual bet for player_i."""
         hands = {
             'p': 'punto',
             'punto': 'punto',
@@ -757,8 +767,13 @@ Options:
             self.bet(player_i)
 
     def deal_hands(self):
+        """Deals both punto and banco hands and proceeds with the game itself.
+        Check if there is a natural, draws possible thrird cards and apply the
+        bet results.
+        """
 
         def result_str():
+            """Returns a string with the game result to be printed as output."""
             if self._game.game_result() != 'tie':
                 return self._game.game_result().title() + ' win'
             else:
@@ -805,6 +820,7 @@ Options:
         input('Press <enter> to continue...')
 
     def create_shoe(self):
+        """Creates a new shoe. Replaces the previous one."""
         shoe_input = input('The number of decks for the new shoe or <c> to cancel: ')
         if shoe_input.lower() in ['c', 'cancel']:
             return
@@ -824,6 +840,7 @@ Options:
             self.create_shoe()
 
     def quit(self):
+        """Quits the game uppon confirmation from the user."""
         quit_input = input('Do you really wish to quit? <y/n> ')
         if quit_input.lower() in ['y', 'yes']:
             self._quit = True
