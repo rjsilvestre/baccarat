@@ -659,7 +659,7 @@ class Cli:
         self._game = Table()
         self._quit = False
         self._options = {
-            '1': self.available_players,
+            '1': self.status,
             '2': self.add_player,
             '3': self.place_bets,
             '4': self.deal_hands,
@@ -672,7 +672,7 @@ class Cli:
         while not self._quit:
             print('''
 Options:
-1: Players status
+1: Status
 2: Add player
 3: Place bets
 4: Deal cards
@@ -686,8 +686,10 @@ Options:
             else:
                 print('Selection not recognized.')
 
-    def available_players(self):
+    def status(self):
+        print(f'Shoe with {self._game.num_decks} deck(s).')
         if self._game.available_players:
+            print(f'{len(self._game.available_players)} player(s) in game:')
             for player in self._game.available_players:
                 print(self._game[player])
         else:
