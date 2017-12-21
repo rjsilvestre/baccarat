@@ -763,32 +763,43 @@ Options:
                 return self._game.game_result().title()
 
         print('Dealing hands...')
+        time.sleep(1)
         self._game.deal_hands()
         print(f'Punto hand: {self._game.punto_cards}, value: {self._game.punto_value}.')
+        time.sleep(0.5)
         print(f'Banco hand: {self._game.banco_cards}, value: {self._game.banco_value}.')
         print()
         if self._game.is_natural():
+            time.sleep(0.5)
             print(f'{result_str()}. Natural.')
-            print()
         else:
             print('Drawing third cards...')
+            time.sleep(1)
             third_draws = self._game.draw_thirds()
             for third_draw in third_draws:
                 print(f'{third_draw[0].title()} draw third card, {third_draw[1]}.')
+                time.sleep(0.5)
             print()
             print(f'Punto hand: {self._game.punto_cards}, value: {self._game.punto_value}.')
+            time.sleep(0.5)
             print(f'Banco hand: {self._game.banco_cards}, value: {self._game.banco_value}.')
+            time.sleep(0.5)
             print(f'{result_str()}.')
-            print()
+        print()
+        input('Press <enter> to continue...')
+        print()
+        print('Checking bets...')
+        time.sleep(1)
         if self._game.valid_bets:
             for player_i in self._game.valid_bets:
                 bet_result = self._game.bet_result(player_i)
                 print(f'Player {player_i + 1} {bet_result[0]}. Balance: {bet_result[1]}.')
-            print()
+                time.sleep(0.5)
         else:
             print('No bets no table.')
         if self._game.open_bets():
             print('Bets are open.')
+        print()
         input('Press <enter> to continue...')
 
     def create_shoe(self):
