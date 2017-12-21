@@ -831,41 +831,5 @@ Options:
             print('Invalid input.')
             self.quit()
 
-
-def show_status(player, banker):
-    print(player)
-    print(player.value)
-    print(banker)
-    print(banker.value)
-    print()
-
-def check_winner(player, banker):
-    if player.value > banker.value:
-        return 'Punto wins.'
-    elif player.value < banker.value:
-        return 'Banco wins.'
-    else:
-        return 'Tie.'
-
-def main():
-    shoe = Shoe(2)
-    player = Punto(shoe.draw_cards(2))
-    banker = Banco(shoe.draw_cards(2))
-
-    show_status(player, banker)
-
-    if player.is_natural() or banker.is_natural():
-        print(f'{check_winner(player, banker)} Natural.')
-    else:
-        if player.draw_third():
-            player.add_cards(shoe.draw_cards(1))
-            if banker.draw_third(player.cards[2]):
-                banker.add_cards(shoe.draw_cards(1))
-        elif banker.draw_third():
-            banker.add_cards(shoe.draw_cards(1))
-
-        show_status(player, banker)
-        print(check_winner(player, banker))
-
 if __name__ == '__main__':
     Cli().run()
