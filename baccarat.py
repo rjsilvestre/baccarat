@@ -868,4 +868,4 @@ def main():
         print(check_winner(player, banker))
 
 if __name__ == '__main__':
-    main()
+    Cli().run()
