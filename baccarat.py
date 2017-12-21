@@ -630,9 +630,12 @@ class Table(Game):
         else:
             self._players[player_i].lose()
             result = ('lose', self._players[player_i].balance)
+        return result
+
+    def open_bets(self):
         if not self.valid_bets:
             self._bets_open = True
-        return result
+        return self._bets_open
 
     def __getitem__(self, player_i):
         """Get the status of a player.
@@ -752,7 +755,41 @@ Options:
             self.bet(player_i)
 
     def deal_hands(self):
-        pass
+
+        def result_str():
+            if self._game.game_result() != 'tie':
+                return self._game.game_result().title() + ' win'
+            else:
+                return self._game.game_result().title()
+
+        print('Dealing hands...')
+        self._game.deal_hands()
+        print(f'Punto hand: {self._game.punto_cards}, value: {self._game.punto_value}.')
+        print(f'Banco hand: {self._game.banco_cards}, value: {self._game.banco_value}.')
+        print()
+        if self._game.is_natural():
+            print(f'{result_str()}. Natural.')
+            print()
+        else:
+            print('Drawing third cards...')
+            third_draws = self._game.draw_thirds()
+            for third_draw in third_draws:
+                print(f'{third_draw[0].title()} draw third card, {third_draw[1]}.')
+            print()
+            print(f'Punto hand: {self._game.punto_cards}, value: {self._game.punto_value}.')
+            print(f'Banco hand: {self._game.banco_cards}, value: {self._game.banco_value}.')
+            print(f'{result_str()}.')
+            print()
+        if self._game.valid_bets:
+            for player_i in self._game.valid_bets:
+                bet_result = self._game.bet_result(player_i)
+                print(f'Player {player_i + 1} {bet_result[0]}. Balance: {bet_result[1]}.')
+            print()
+        else:
+            print('No bets no table.')
+        if self._game.open_bets():
+            print('Bets are open.')
+        input('Press <enter> to continue...')
 
     def create_shoe(self):
         shoe_input = input('The number of decks for the new shoe or <c> to cancel: ')
