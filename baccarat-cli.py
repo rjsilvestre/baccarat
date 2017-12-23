@@ -92,11 +92,11 @@ Options:
             }
         action = 'Replacing' if player_i in self._game.valid_bets else 'New'
         print(f'{action} bet for Player {player_i + 1}. Press <s> to skip.')
-        hand_input = input('Please type the hand to bet. <p> punto, <b> banco, <t> tie. ')
+        hand_input = input('The hand to bet. <p> punto, <b> banco, <t> tie: ')
         if hand_input.lower() in ['s', 'skip']:
             print()
             return
-        amount_input = input('Please type the amount to bet. ')
+        amount_input = input('The amount to bet: ')
         if amount_input.lower() in ['s', 'skip']:
             print()
             return
@@ -188,7 +188,7 @@ Options:
 
     def quit(self):
         """Quits the game uppon confirmation from the user."""
-        quit_input = input('Do you really wish to quit? <y/n> ')
+        quit_input = input('Do you really wish to quit? <y/n>: ')
         if quit_input.lower() in ['y', 'yes']:
             self._quit = True
         elif quit_input.lower() in ['n', 'no']:
