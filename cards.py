@@ -124,7 +124,6 @@ class Shoe:
         for i in range(num_cards):
             if len(self._cards) == 0:
                 self.add_decks()
-                print('Refilling shoe...')
             cards_drawn.append(self._cards.pop())
         return cards_drawn
 
