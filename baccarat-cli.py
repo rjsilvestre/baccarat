@@ -126,12 +126,22 @@ Options:
             else:
                 return self._game.game_result().title()
 
+        def print_hands():
+            print(f'Punto hand: {self._game.punto_cards}.')
+            punto_values = ', '.join([str(value) for value in self._game.punto_values])
+            print(f'Cards values: {punto_values}.')
+            print(f'Total hand value: value: {self._game.punto_value}.')
+            time.sleep(0.5)
+            print(f'Banco hand: {self._game.banco_cards}.')
+            banco_values = ', '.join([str(value) for value in self._game.banco_values])
+            print(f'Cards values: {banco_values}.')
+            print(f'Total hand value: value: {self._game.banco_value}.')
+
+
         print('Dealing hands...')
         time.sleep(1)
         self._game.deal_hands()
-        print(f'Punto hand: {self._game.punto_cards}, value: {self._game.punto_value}.')
-        time.sleep(0.5)
-        print(f'Banco hand: {self._game.banco_cards}, value: {self._game.banco_value}.')
+        print_hands()
         print()
         if self._game.is_natural():
             time.sleep(0.5)
@@ -144,9 +154,7 @@ Options:
                 print(f'{third_draw[0].title()} draw third card, {third_draw[1]}.')
                 time.sleep(0.5)
             print()
-            print(f'Punto hand: {self._game.punto_cards}, value: {self._game.punto_value}.')
-            time.sleep(0.5)
-            print(f'Banco hand: {self._game.banco_cards}, value: {self._game.banco_value}.')
+            print_hands()
             time.sleep(0.5)
             print(f'{result_str()}.')
         print()
