@@ -36,6 +36,20 @@ class Game:
         return self._punto.value
 
     @property
+    def punto_values(self):
+        """Returns the individual card values of punto hand.
+
+        Raises:
+            ValueError: If _punto is None.
+        """
+        if not self._punto:
+            raise ValueError('No hands were dealt.')
+        values = []
+        for card in self._punto.cards:
+            values.append(card.value)
+        return values
+
+    @property
     def punto_cards(self):
         """Returns cards of punto hand.
 
@@ -56,6 +70,20 @@ class Game:
         if not self._banco:
             raise ValueError('No hands were dealt.')
         return self._banco.value
+
+    @property
+    def banco_values(self):
+        """Returns the individual card values of banco hand.
+
+        Raises:
+            ValueError: If _punto is None.
+        """
+        if not self._banco:
+            raise ValueError('No hands were dealt.')
+        values = []
+        for card in self._banco.cards:
+            values.append(card.value)
+        return values
 
     @property
     def banco_cards(self):
