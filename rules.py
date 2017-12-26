@@ -98,8 +98,13 @@ class Game:
 
     @property
     def num_decks(self):
-        """Returns number of decks of _shoe."""
+        """Returns initial number of decks of _shoe."""
         return self._shoe.num_decks
+
+    @property
+    def num_cards(self):
+        """Returns current number of cards in shoe."""
+        return self._shoe.num_cards
 
     def create_shoe(self, num_decks):
         """Creates an instance of Shoe with num_decks."""

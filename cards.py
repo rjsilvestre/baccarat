@@ -91,12 +91,17 @@ class Shoe:
 
     @property
     def num_decks(self):
-        """Get shoe number of decks."""
+        """Returns initial number of decks of shoe."""
         return self._num_decks
 
     @property
+    def num_cards(self):
+        """Returns current number of cards in shoe."""
+        return len(self._cards)
+
+    @property
     def cards(self):
-        """Get shoe cards list."""
+        """Returns current list of cards in shoe."""
         return self._cards
 
     def add_decks(self, num_decks=None):
