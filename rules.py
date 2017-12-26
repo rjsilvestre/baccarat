@@ -172,7 +172,7 @@ class Game:
         """Checks was is the result of the game.
 
         Returns:
-            int, with the winning hand or 'tie' in case is a tie.
+            str, with the winning hand or 'tie' in case is a tie.
 
         Raises:
             GameError: If the game is still running.
