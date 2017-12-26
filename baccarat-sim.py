@@ -10,13 +10,14 @@ def hand_values(hand):
     return values
 
 num_decks = 8
+num_shoes = 100
 game_count = 0
 total_wins = {'banco': 0, 'punto': 0, 'tie': 0}
 
 sim = Game()
 sim.create_shoe(num_decks)
 
-for i in range(10000):
+for i in range(num_shoes):
     print(f'\nShoe number {i + 1}\n')
     shoe_wins = {'banco': 0, 'punto': 0, 'tie': 0}
     while sim.num_cards >= 6:
