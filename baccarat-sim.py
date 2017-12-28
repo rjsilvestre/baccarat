@@ -1,4 +1,5 @@
 import datetime
+import argparse
 from rules import Game
 
 def hand_values(hand):
@@ -13,23 +14,28 @@ def hand_values(hand):
 
 def main():
 
-    num_decks = 8
-    num_shoes = 10000
     shoe_count = 0
     game_count = 0
     total_wins = {'banco': 0, 'punto': 0, 'tie': 0}
 
+    parser = argparse.ArgumentParser(description='Simulates baccarat games to a text file.')
+    parser.add_argument('-s', action='store', dest='shoes', default=10000,
+                        type=int, help='number of shoes to be simulated, default 10000')
+    parser.add_argument('-d', action='store', dest='decks', default=8,
+                        type=int, help='number of decks per shoe, default 8')
+    args = parser.parse_args()
+
     sim = Game()
-    sim.create_shoe(num_decks)
+    sim.create_shoe(args.decks)
 
     now = datetime.datetime.now()
-    file_name = f'{num_decks}_{num_shoes}_{now.strftime("%d%m%y%H%M%S")}.txt'
+    file_name = f'{args.decks}_{args.shoes}_{now.strftime("%d%m%y%H%M%S")}.txt'
 
     # Open file
     with open(file_name, 'w') as sim_file:
 
         # Run through num_shoes
-        for i in range(num_shoes):
+        for i in range(args.shoes):
             shoe_wins = {'banco': 0, 'punto': 0, 'tie': 0}
             shoe_count += 1
             sim_file.write(f'\nShoe number {i + 1}\n\n')
@@ -56,14 +62,14 @@ def main():
                 sim_file.write(','.join(result) + '\n')
 
                 # Progress
-                progress = round((shoe_count / num_shoes) * 100, 1)
+                progress = round((shoe_count / args.shoes) * 100, 1)
                 print(f'Progress: {progress}%', end='\r')
 
             # Shoe results
             sim_file.write('\nShoe results:\n')
             for win in shoe_wins:
                 sim_file.write(f'{win.title()}:\t{shoe_wins[win]}\n')
-            sim.create_shoe(num_decks)
+            sim.create_shoe(args.decks)
 
         # Total results
         sim_file.write('\nTotal results:\n')
