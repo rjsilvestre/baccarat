@@ -14,10 +14,12 @@ def hand_values(hand):
 
 def main():
 
+    # Counters
     shoe_count = 0
     game_count = 0
     total_wins = {'banco': 0, 'punto': 0, 'tie': 0}
 
+    # Argument parser
     parser = argparse.ArgumentParser(description='Simulates baccarat games to a text file.')
     parser.add_argument('-s', action='store', dest='shoes', default=10000,
                         type=int, help='number of shoes to be simulated, default 10000')
@@ -25,9 +27,11 @@ def main():
                         type=int, help='number of decks per shoe, default 8')
     args = parser.parse_args()
 
+    # Create game object
     sim = Game()
     sim.create_shoe(args.decks)
 
+    # Set file name
     now = datetime.datetime.now()
     file_name = f'{args.decks}_{args.shoes}_{now.strftime("%d%m%y%H%M%S")}.txt'
 
@@ -75,7 +79,7 @@ def main():
         sim_file.write('\nTotal results:\n')
         for win in total_wins:
             sim_file.write(f'{win.title()}:\t{total_wins[win]}\t\
-    ({round((total_wins[win]/game_count) * 100, 4)}%)\n')
+({round((total_wins[win]/game_count) * 100, 4)}%)\n')
 
 if __name__ == '__main__':
     main()
