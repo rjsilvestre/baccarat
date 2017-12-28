@@ -11,60 +11,65 @@ def hand_values(hand):
             values.append('x')
     return values
 
-num_decks = 8
-num_shoes = 10000
-shoe_count = 0
-game_count = 0
-total_wins = {'banco': 0, 'punto': 0, 'tie': 0}
+def main():
 
-sim = Game()
-sim.create_shoe(num_decks)
+    num_decks = 8
+    num_shoes = 10000
+    shoe_count = 0
+    game_count = 0
+    total_wins = {'banco': 0, 'punto': 0, 'tie': 0}
 
-now = datetime.datetime.now()
-file_name = f'{num_decks}_{num_shoes}_{now.strftime("%d%m%y%H%M%S")}.txt'
+    sim = Game()
+    sim.create_shoe(num_decks)
 
-# Open file
-with open(file_name, 'w') as sim_file:
+    now = datetime.datetime.now()
+    file_name = f'{num_decks}_{num_shoes}_{now.strftime("%d%m%y%H%M%S")}.txt'
 
-    # Run through num_shoes
-    for i in range(num_shoes):
-        shoe_wins = {'banco': 0, 'punto': 0, 'tie': 0}
-        shoe_count += 1
-        sim_file.write(f'\nShoe number {i + 1}\n\n')
+    # Open file
+    with open(file_name, 'w') as sim_file:
 
-        # While the shoe has more than 5 cards
-        while sim.num_cards >= 6:
-            result = []
-            game_count += 1
+        # Run through num_shoes
+        for i in range(num_shoes):
+            shoe_wins = {'banco': 0, 'punto': 0, 'tie': 0}
+            shoe_count += 1
+            sim_file.write(f'\nShoe number {i + 1}\n\n')
 
-            # Baccarat game
-            sim.deal_hands()
-            if not sim.is_natural():
-                sim.draw_thirds()
-            game_result = sim.game_result()
-            shoe_wins[game_result] += 1
-            total_wins[game_result] += 1
+            # While the shoe has more than 5 cards
+            while sim.num_cards >= 6:
+                result = []
+                game_count += 1
 
-            # Append to results list
-            result.append(game_result.title()[0])
-            result.append(str(sim.banco_value))
-            result.append(str(sim.punto_value))
-            result.extend(hand_values(sim.banco_values))
-            result.extend(hand_values(sim.punto_values))
-            sim_file.write(','.join(result) + '\n')
+                # Baccarat game
+                sim.deal_hands()
+                if not sim.is_natural():
+                    sim.draw_thirds()
+                game_result = sim.game_result()
+                shoe_wins[game_result] += 1
+                total_wins[game_result] += 1
 
-            # Progress
-            progress = round((shoe_count / num_shoes) * 100, 1) 
-            print(f'Progress: {progress}%', end='\r')
+                # Append to results list
+                result.append(game_result.title()[0])
+                result.append(str(sim.banco_value))
+                result.append(str(sim.punto_value))
+                result.extend(hand_values(sim.banco_values))
+                result.extend(hand_values(sim.punto_values))
+                sim_file.write(','.join(result) + '\n')
 
-        # Shoe results
-        sim_file.write('\nShoe results:\n')
-        for win in shoe_wins:
-            sim_file.write(f'{win.title()}:\t{shoe_wins[win]}\n')
-        sim.create_shoe(num_decks)
+                # Progress
+                progress = round((shoe_count / num_shoes) * 100, 1)
+                print(f'Progress: {progress}%', end='\r')
 
-    # Total results
-    sim_file.write('\nTotal results:\n')
-    for win in total_wins:
-        sim_file.write(f'{win.title()}:\t{total_wins[win]}\t\
-({round((total_wins[win]/game_count) * 100, 4)}%)\n')
+            # Shoe results
+            sim_file.write('\nShoe results:\n')
+            for win in shoe_wins:
+                sim_file.write(f'{win.title()}:\t{shoe_wins[win]}\n')
+            sim.create_shoe(num_decks)
+
+        # Total results
+        sim_file.write('\nTotal results:\n')
+        for win in total_wins:
+            sim_file.write(f'{win.title()}:\t{total_wins[win]}\t\
+    ({round((total_wins[win]/game_count) * 100, 4)}%)\n')
+
+if __name__ == '__main__':
+    main()
