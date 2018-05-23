@@ -17,6 +17,3 @@ python3 baccarat-sim.py [-h] [-s SHOES] [-d DECKS]
 
 ### Prerequisites
 * Python 3.6
-
-### TODO
-* GUI (maybe?)
