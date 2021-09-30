@@ -7,7 +7,7 @@ The simulation supports cli arguments and outputs a number simulated baccarat sh
 #### Baccarat game cli
 Just run baccarat-cli.py on python.
 ```
-python3 baccarat-cly.py
+python3 baccarat-cli.py
 ```
 #### Baccarat simulation
 Run baccarat-sim.py on python. The number of shoes to be simulated and the number of decks per shoe can be set with the optional ```-s``` and ```-d``` arguments respectively. The default number of shoes is 10000 with 8 decks each.
